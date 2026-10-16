@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -96,6 +97,7 @@ fun IdiomBridgeScreen(
                     inputText = uiState.britishIdiomInput,
                     onTextChanged = viewModel::onBritishIdiomChanged,
                     onTranslateClick = viewModel::onTranslateClicked,
+                    isLoading = uiState.isLoading,
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
@@ -104,6 +106,8 @@ fun IdiomBridgeScreen(
                 // Output Card (Brazilian Idiom)
                 OutputIdiomCard(
                     outputText = uiState.brazilianIdiomOutput,
+                    isLoading = uiState.isLoading,
+                    errorMessage = uiState.errorMessage,
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
@@ -156,6 +160,7 @@ fun InputIdiomCard(
     inputText: String,
     onTextChanged: (String) -> Unit,
     onTranslateClick: () -> Unit,
+    isLoading: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -212,6 +217,7 @@ fun InputIdiomCard(
             // Translate Action Button
             Button(
                 onClick = onTranslateClick,
+                enabled = !isLoading,
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = TranslateButtonBackground,
@@ -256,6 +262,8 @@ fun InputIdiomCard(
 @Composable
 fun OutputIdiomCard(
     outputText: String?,
+    isLoading: Boolean = false,
+    errorMessage: String? = null,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -284,45 +292,64 @@ fun OutputIdiomCard(
                     .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
-                if (outputText.isNullOrBlank()) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(RoundedCornerShape(14.dp))
-                                .background(EmptyStateCircleBackground),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_chat_bubble),
-                                contentDescription = null,
-                                tint = EmptyStateIconTint,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(18.dp))
-
+                when {
+                    isLoading -> {
+                        CircularProgressIndicator(
+                            color = BrazilianBadgeText
+                        )
+                    }
+                    !errorMessage.isNullOrBlank() -> {
                         Text(
-                            text = "You'll see the Brazilian version of\nthis idiom here",
+                            text = errorMessage,
                             fontSize = 16.sp,
                             lineHeight = 23.sp,
                             fontWeight = FontWeight.Normal,
                             color = TextSecondary,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.widthIn(max = 260.dp)
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
-                } else {
-                    Text(
-                        text = outputText,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = TextPrimary,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    outputText.isNullOrBlank() -> {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clip(RoundedCornerShape(14.dp))
+                                    .background(EmptyStateCircleBackground),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_chat_bubble),
+                                    contentDescription = null,
+                                    tint = EmptyStateIconTint,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(18.dp))
+
+                            Text(
+                                text = "You'll see the Brazilian version of\nthis idiom here",
+                                fontSize = 16.sp,
+                                lineHeight = 23.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = TextSecondary,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.widthIn(max = 260.dp)
+                            )
+                        }
+                    }
+                    else -> {
+                        Text(
+                            text = outputText,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = TextPrimary,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
         }

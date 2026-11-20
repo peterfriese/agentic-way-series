@@ -16,18 +16,14 @@ devices for you:
 
 Run `flowdeck <command> --help` for options.
 
-## Project generation (XcodeGen)
+## Project format (Xcode 27 native JSON)
 
-This project's `.xcodeproj` is **generated** from `project.yml` by
-[XcodeGen](https://github.com/yonaskolb/XcodeGen). `project.yml` is the source of
-truth and the `.xcodeproj` is git-ignored.
+This project uses Xcode 27's native JSON-based `IdiomBridge.xcodeproj/project.xcproj`
+with synchronized filesystem folders (`PBXFileSystemSynchronizedRootGroup`) and
+a minimum deployment target of **iOS 27.0**.
 
-- Change targets, build settings, deployment targets, or platforms by editing
-  **`project.yml`**, then regenerate with `xcodegen generate`.
-- **Never hand-edit the generated `.xcodeproj`** — your changes will be lost the
-  next time it is regenerated.
-- To add source files, drop them into the target's source folder; XcodeGen picks
-  them up on the next generate (no manual project registration needed).
+- To add source files or resources, drop them into the target's folder; Xcode
+  picks them up automatically without manual project registration.
 
 ## Architecture — MVVM
 

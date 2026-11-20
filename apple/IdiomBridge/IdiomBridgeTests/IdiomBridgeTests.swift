@@ -113,6 +113,24 @@ struct IdiomBridgeTests {
         #expect(viewModel.translationState == .translated("Ein Kinderspiel"))
     }
 
+    @Test("Translates British English -> Chilean Spanish")
+    func translateBritishToChileanSpanish() async {
+        let service = MockIdiomTranslationService { idiom, source, target in
+            #expect(idiom == "Piece of cake")
+            #expect(source == .britishEnglish)
+            #expect(target == .chileanSpanish)
+            return "Papas"
+        }
+        let viewModel = IdiomBridgeViewModel(translationService: service)
+        viewModel.targetLanguage = .chileanSpanish
+        viewModel.idiomInput = "Piece of cake"
+
+        await viewModel.translate()
+
+        #expect(viewModel.translatedIdiomOutput == "Papas")
+        #expect(viewModel.translationState == .translated("Papas"))
+    }
+
     @Test("Selecting the same language on source auto-swaps target")
     func selectingSameSourceAutoSwapsTarget() async {
         let viewModel = IdiomBridgeViewModel(
@@ -208,24 +226,34 @@ struct IdiomBridgeTests {
 
     @Test("Prompt builder includes idiom, source language, and target language")
     func promptIncludesIdiomAndLanguages() {
-        let prompt = FirebaseIdiomTranslationService.makePrompt(
+        let dePrompt = FirebaseIdiomTranslationService.makePrompt(
             for: "Daumen drücken",
             from: .german,
             to: .britishEnglish
         )
-        #expect(prompt.contains("Daumen drücken"))
-        #expect(prompt.contains("German idiom"))
-        #expect(prompt.contains("British English idiom"))
+        #expect(dePrompt.contains("Daumen drücken"))
+        #expect(dePrompt.contains("German idiom"))
+        #expect(dePrompt.contains("British English idiom"))
+
+        let clPrompt = FirebaseIdiomTranslationService.makePrompt(
+            for: "Piece of cake",
+            from: .britishEnglish,
+            to: .chileanSpanish
+        )
+        #expect(clPrompt.contains("Piece of cake"))
+        #expect(clPrompt.contains("Chilean Spanish idiom"))
     }
 
     @Test("IdiomLanguage provides display metadata for all cases")
     func languageMetadata() {
-        #expect(IdiomLanguage.allCases == [.britishEnglish, .brazilianPortuguese, .german])
+        #expect(IdiomLanguage.allCases == [.britishEnglish, .brazilianPortuguese, .german, .chileanSpanish])
         #expect(IdiomLanguage.britishEnglish.displayName == "British English")
         #expect(IdiomLanguage.britishEnglish.flagEmoji == "🇬🇧")
         #expect(IdiomLanguage.brazilianPortuguese.displayName == "Brazilian Portuguese")
         #expect(IdiomLanguage.brazilianPortuguese.flagEmoji == "🇧🇷")
         #expect(IdiomLanguage.german.displayName == "German")
         #expect(IdiomLanguage.german.flagEmoji == "🇩🇪")
+        #expect(IdiomLanguage.chileanSpanish.displayName == "Chilean Spanish")
+        #expect(IdiomLanguage.chileanSpanish.flagEmoji == "🇨🇱")
     }
 }

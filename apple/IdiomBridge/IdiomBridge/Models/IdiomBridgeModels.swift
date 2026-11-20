@@ -5,6 +5,7 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
     case britishEnglish
     case brazilianPortuguese
     case german
+    case chileanSpanish
 
     var id: Self { self }
 
@@ -17,6 +18,8 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
             "Brazilian Portuguese"
         case .german:
             "German"
+        case .chileanSpanish:
+            "Chilean Spanish"
         }
     }
 
@@ -34,6 +37,8 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
             "Brazilian Portuguese idiom - the expression Brazilians actually use"
         case .german:
             "German idiom - the expression German speakers actually use"
+        case .chileanSpanish:
+            "Chilean Spanish idiom - the expression Chileans actually use"
         }
     }
 
@@ -46,6 +51,8 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
             "BRAZILIAN IDIOM"
         case .german:
             "GERMAN IDIOM"
+        case .chileanSpanish:
+            "CHILEAN IDIOM"
         }
     }
 
@@ -58,6 +65,8 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
             "🇧🇷"
         case .german:
             "🇩🇪"
+        case .chileanSpanish:
+            "🇨🇱"
         }
     }
 
@@ -70,6 +79,8 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
             "Type the Brazilian idiom"
         case .german:
             "Type the German idiom"
+        case .chileanSpanish:
+            "Type the Chilean Spanish idiom"
         }
     }
 
@@ -82,6 +93,8 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
             "You'll see the Brazilian version of this idiom here"
         case .german:
             "You'll see the German version of this idiom here"
+        case .chileanSpanish:
+            "You'll see the Chilean Spanish version of this idiom here"
         }
     }
 
@@ -94,6 +107,8 @@ nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Ha
             "Finding the Brazilian equivalent..."
         case .german:
             "Finding the German equivalent..."
+        case .chileanSpanish:
+            "Finding the Chilean Spanish equivalent..."
         }
     }
 }

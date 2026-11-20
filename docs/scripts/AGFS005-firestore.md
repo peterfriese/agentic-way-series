@@ -38,7 +38,8 @@
 | *(1:45)* **Agent (Voice):** "Offline persistence is on by default on iOS, and `firestore.rules` restricts read and write access to `request.auth != null && request.auth.uid == userId`. Deploying rules and running the tests now." | Screencast: `firebase deploy --only firestore:rules` + `flowdeck test` passing |
 | **2:30 - Live Demo: Simulator to Firebase Console** | |
 | *(2:30)* Let's see it running in the iOS Simulator. I'll sign in, translate *"It's raining cats and dogs"* to German, and tap Save. | iPhone 18 Pro Simulator: sign in, translate, tap Save |
-| *(3:00)* There it is in the Saved Idioms list, and if I switch over to the Firebase Console under Firestore Database, the document is already there under `users/{uid}/idioms` with the source idiom, target language, and timestamp. | Screencast: Firebase Console -> Firestore Database showing the live document |
+| *(2:48)* **Agent (Voice, interrupting playfully):** "Oh, that is a really funny idiom! *Es regnet wie aus Eimern*, literally raining out of buckets." | Antigravity Voice Mode waveform pulses spontaneously |
+| *(2:56)* **Peter (smiling):** "Wait, you're still listening? Good, keep watching." There it is in the Saved Idioms list, and if I switch over to the Firebase Console under Firestore Database, the document is already there under `users/{uid}/idioms` with the source idiom, target language, and timestamp. | Screencast: Saved Idioms list -> Firebase Console -> Firestore Database showing the live document |
 | **3:45 - Checking Security Rules** | |
 | *(3:45)* And if we check the Rules tab in the console, those rules are already live: only the signed-in owner can read or write their own collection. | Screencast: Firebase Console -> Firestore -> Rules tab |
 | **4:15 - Wrapping Up** | |

@@ -1,0 +1,127 @@
+# XcodeGen manifest — the source of truth for this project.
+#
+# The .xcodeproj is generated from this file (and is git-ignored). Regenerate it
+# any time with `xcodegen generate` or by opening the project through FlowDeck.
+# Edit this file to change targets, build settings, or platforms — never hand-edit
+# the generated .xcodeproj.
+#
+# Every "IdiomBridge" below is quoted on purpose: it is substituted with the app name as
+# the user typed it, and YAML would otherwise type-infer names like 2048 as a
+# number ("Decoding failed at name: expected String found 2048") or trip over
+# punctuation.
+name: "IdiomBridge"
+options:
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    # Sign to Run Locally, so a brand new project builds and runs on this Mac
+    # and in the simulator without an Apple account. Automatic signing with no
+    # DEVELOPMENT_TEAM cannot do that: from the command line it fails outright
+    # with "Signing for … requires a development team", because only the Xcode
+    # UI offers the fall back to local signing.
+    #
+    # XcodeGen turns CODE_SIGN_STYLE into each target's `ProvisioningStyle`
+    # attribute, which is what the provisioning system actually reads, so this
+    # has to be Manual here rather than only on the targets. The matching
+    # CODE_SIGN_IDENTITY has to be repeated per target: at project level Xcode
+    # does not apply it to the target's provisioning inputs and asks for a
+    # profile instead.
+    #
+    # Picking a team in Signing & Capabilities switches this back to Automatic,
+    # which is what device builds need.
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    GENERATE_INFOPLIST_FILE: YES
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: "12.0.0"
+targets:
+  "IdiomBridge":
+    type: application
+    supportedDestinations: [iOS]
+    sources:
+      - "IdiomBridge"
+    dependencies:
+      - package: Firebase
+        product: FirebaseCore
+      - package: Firebase
+        product: FirebaseAI
+      - package: Firebase
+        product: FirebaseAppCheck
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "com.google.firebase.example.agenticway"
+        CODE_SIGN_IDENTITY: "-"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_APP_SANDBOX: YES
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_PREVIEWS: YES
+        ENABLE_USER_SELECTED_FILES: readonly
+        REGISTER_APP_GROUPS: YES
+        STRING_CATALOG_GENERATE_SYMBOLS: YES
+        SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+        SWIFT_EMIT_LOC_STRINGS: YES
+        "INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]": YES
+        "INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]": YES
+        "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]": YES
+        "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]": YES
+        "INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]": YES
+        "INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]": YES
+        "INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]": UIStatusBarStyleDefault
+        "INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]": UIStatusBarStyleDefault
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+  "IdiomBridgeTests":
+    type: bundle.unit-test
+    supportedDestinations: [iOS]
+    sources:
+      - "IdiomBridgeTests"
+    dependencies:
+      - target: "IdiomBridge"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "com.google.firebase.example.agenticwayTests"
+        CODE_SIGN_IDENTITY: "-"
+        STRING_CATALOG_GENERATE_SYMBOLS: NO
+        SWIFT_EMIT_LOC_STRINGS: NO
+  "IdiomBridgeUITests":
+    type: bundle.ui-testing
+    supportedDestinations: [iOS]
+    sources:
+      - "IdiomBridgeUITests"
+    dependencies:
+      - target: "IdiomBridge"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "com.google.firebase.example.agenticwayUITests"
+        CODE_SIGN_IDENTITY: "-"
+        STRING_CATALOG_GENERATE_SYMBOLS: NO
+        SWIFT_EMIT_LOC_STRINGS: NO
+schemes:
+  "IdiomBridge":
+    build:
+      targets:
+        "IdiomBridge": all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - "IdiomBridgeTests"
+        - "IdiomBridgeUITests"
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

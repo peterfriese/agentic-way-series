@@ -1,10 +1,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var viewModel = IdiomBridgeViewModel()
+    @State private var authViewModel = AuthViewModel()
+    @State private var idiomViewModel = IdiomBridgeViewModel()
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        IdiomBridgeScreen(viewModel: viewModel)
+        Group {
+            switch authViewModel.authState {
+            case .loading:
+                ZStack {
+                    IdiomBridgeTheme.groupedBackground
+                        .ignoresSafeArea()
+                    ProgressView()
+                }
+            case .signedOut:
+                SignInView(viewModel: authViewModel)
+            case .signedIn(let user):
+                IdiomBridgeScreen(
+                    viewModel: idiomViewModel,
+                    user: user,
+                    onSignOut: {
+                        Task {
+                            await authViewModel.signOut()
+                        }
+                    }
+                )
+            }
+        }
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: authViewModel.authState)
     }
 }
 
@@ -12,10 +37,13 @@ struct ContentView: View {
 /// and restrained Liquid Glass action controls.
 struct IdiomBridgeScreen: View {
     @Bindable var viewModel: IdiomBridgeViewModel
+    var user: AuthUser = AuthUser(uid: "preview", displayName: "Preview User", email: "preview@example.com")
+    var onSignOut: () -> Void = {}
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @FocusState private var isInputFocused: Bool
+    @State private var isShowingAccountSheet = false
 
     private var canClear: Bool {
         !viewModel.idiomInput.isEmpty
@@ -73,12 +101,23 @@ struct IdiomBridgeScreen: View {
                     }
                 }
 
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Account", systemImage: "person") {
+                        isInputFocused = false
+                        isShowingAccountSheet = true
+                    }
+                    .accessibilityLabel("Account")
+                }
+
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     Button("Done") {
                         isInputFocused = false
                     }
                 }
+            }
+            .sheet(isPresented: $isShowingAccountSheet) {
+                AccountSheetView(user: user, onSignOut: onSignOut)
             }
         }
     }

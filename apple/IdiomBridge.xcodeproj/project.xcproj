@@ -17,6 +17,12 @@
       "version": {
         "up-to-next-major-version": "12.0.0",
       },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/google/GoogleSignIn-iOS",
+      "version": {
+        "up-to-next-major-version": "10.0.0",
+      },
     },
   ],
   "files": [
@@ -32,12 +38,14 @@
           "kind": "group",
           "path": "Models",
           "children": [
+            { "path": "AuthModels.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
             { "path": "IdiomBridgeModels.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
           ],
         }, {
           "kind": "group",
           "path": "Services",
           "children": [
+            { "path": "AuthService.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
             { "path": "IdiomTranslationService.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
           ],
         }, {
@@ -50,6 +58,7 @@
           "kind": "group",
           "path": "ViewModels",
           "children": [
+            { "path": "AuthViewModel.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
             { "path": "IdiomBridgeViewModel.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
           ],
         }, {
@@ -57,10 +66,12 @@
           "path": "Views",
           "children": [
             { "path": "ContentView.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
+            { "path": "SignInView.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
             {
               "kind": "group",
               "path": "Components",
               "children": [
+                { "path": "AccountSheetView.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
                 { "path": "InputIdiomCard.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
                 { "path": "LanguageBadge.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
                 { "path": "LanguagePairBar.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
@@ -87,7 +98,7 @@
       "kind": "group",
       "name": "Products",
       "children": [
-        { "path": "<PRODUCTS>/IdiomBridge.app", "id": "65AD2D43CD2F43E36163DAAF", "index": false },
+        { "path": "<PRODUCTS>/IdiomBridge.app", "id": "65AD2D43CD2F43E36163DAAF", "type": "wrapper.application", "index": false },
         { "path": "<PRODUCTS>/IdiomBridgeTests.xctest", "id": "0E0FFA4B8AADFF8BEE6B1470", "index": false },
         { "path": "<PRODUCTS>/IdiomBridgeUITests.xctest", "id": "24F8DB83C6EA1AA83E810223", "index": false },
       ],
@@ -99,7 +110,6 @@
       "id": "5E6AC6BA4888DAB54B53E77A",
       "product": "Products/IdiomBridge.app",
       "product-type": "application",
-      "legacy-provisioning-style": "manual",
       "build-phases": [
         "compile-sources",
         "resources",
@@ -107,12 +117,24 @@
       ],
       "package-product-members": [
         {
+          "package": "GoogleSignIn-iOS",
+          "product-name": "GoogleSignIn",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "GoogleSignIn-iOS",
+          "product-name": "GoogleSignInSwift",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
           "package": "firebase-ios-sdk",
           "product-name": "FirebaseAI",
           "build-phase": { "build-phase": "frameworks" },
         }, {
           "package": "firebase-ios-sdk",
           "product-name": "FirebaseAppCheck",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "firebase-ios-sdk",
+          "product-name": "FirebaseAuth",
           "build-phase": { "build-phase": "frameworks" },
         }, {
           "package": "firebase-ios-sdk",
@@ -123,11 +145,15 @@
       "build-settings": {
         "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
-        "CODE_SIGN_IDENTITY": "-",
+        "CODE_SIGN_ENTITLEMENTS": "IdiomBridge/IdiomBridge.entitlements",
+        "CODE_SIGN_IDENTITY": "Apple Development",
+        "CODE_SIGN_STYLE": "Automatic",
+        "DEVELOPMENT_TEAM": "YGAZHQXHH4",
         "ENABLE_APP_SANDBOX": "YES",
         "ENABLE_HARDENED_RUNTIME": "YES",
         "ENABLE_PREVIEWS": "YES",
         "ENABLE_USER_SELECTED_FILES": "readonly",
+        "INFOPLIST_FILE": "IdiomBridge/Info.plist",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]": "YES",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]": "YES",
         "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]": "YES",
@@ -143,6 +169,7 @@
           "@executable_path/Frameworks",
         ],
         "PRODUCT_BUNDLE_IDENTIFIER": "com.google.firebase.example.agenticway",
+        "PROVISIONING_PROFILE_SPECIFIER": "",
         "REGISTER_APP_GROUPS": "YES",
         "SDKROOT": "auto",
         "STRING_CATALOG_GENERATE_SYMBOLS": "YES",

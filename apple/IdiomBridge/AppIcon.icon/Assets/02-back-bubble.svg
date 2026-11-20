@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="backBubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0F7FA" stop-opacity="0.86"/>
+      <stop offset="100%" stop-color="#80DEEA" stop-opacity="0.72"/>
+    </linearGradient>
+    <linearGradient id="accentDotsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#006064" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#00838F" stop-opacity="0.72"/>
+    </linearGradient>
+  </defs>
+  <!-- Back speech bubble (upper-right) with smooth tail -->
+  <path d="M 468 202 H 748 A 92 92 0 0 1 840 294 V 438 A 92 92 0 0 1 800 514 L 818 582 A 14 14 0 0 1 797 598 L 704 530 H 468 A 92 92 0 0 1 376 438 V 294 A 92 92 0 0 1 468 202 Z" fill="url(#backBubbleGrad)"/>
+  <!-- Three crisp expression dots -->
+  <circle cx="534" cy="366" r="24" fill="url(#accentDotsGrad)"/>
+  <circle cx="610" cy="366" r="24" fill="url(#accentDotsGrad)"/>
+  <circle cx="686" cy="366" r="24" fill="url(#accentDotsGrad)"/>
+</svg>

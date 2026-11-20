@@ -1,0 +1,79 @@
+{
+  "fill": {
+    "linear-gradient": [
+      "display-p3:0.12,0.46,0.92,1.0",
+      "display-p3:0.05,0.22,0.58,1.0"
+    ]
+  },
+  "fill-specializations": [
+    {
+      "appearance": "dark",
+      "value": {
+        "linear-gradient": [
+          "display-p3:0.06,0.22,0.52,1.0",
+          "display-p3:0.02,0.08,0.24,1.0"
+        ]
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "01-FrontSpeechBubble",
+      "blur-material": 0.42,
+      "lighting": "combined",
+      "refractivity": {
+        "enabled": true,
+        "strength": 0.92,
+        "depth": 0.84
+      },
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.55
+      },
+      "specular-highlight-placement": "automatic",
+      "translucency": {
+        "enabled": true,
+        "value": 0.58
+      },
+      "layers": [
+        {
+          "name": "FrontSpeechBubble",
+          "image-name": "01-front-bubble.svg",
+          "glass": true
+        }
+      ]
+    },
+    {
+      "name": "02-BackSpeechBubble",
+      "blur-material": 0.50,
+      "lighting": "individual",
+      "refractivity": {
+        "enabled": true,
+        "strength": 0.82,
+        "depth": 0.70
+      },
+      "shadow": {
+        "kind": "layer-color",
+        "opacity": 0.55
+      },
+      "specular-highlight-placement": "automatic",
+      "translucency": {
+        "enabled": true,
+        "value": 0.44
+      },
+      "layers": [
+        {
+          "name": "BackSpeechBubble",
+          "image-name": "02-back-bubble.svg",
+          "glass": true
+        }
+      ]
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": "shared"
+  }
+}

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="frontBubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#E3F2FD" stop-opacity="0.86"/>
+    </linearGradient>
+    <linearGradient id="quoteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1565C0"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+  </defs>
+  <!-- Front speech bubble (lower-left) with smooth tail -->
+  <path d="M 276 416 H 556 A 92 92 0 0 1 648 508 V 652 A 92 92 0 0 1 556 744 H 324 L 228 806 A 14 14 0 0 1 207 790 L 226 720 A 92 92 0 0 1 184 652 V 508 A 92 92 0 0 1 276 416 Z" fill="url(#frontBubbleGrad)"/>
+  <!-- Bold opening quotation mark motif -->
+  <g fill="url(#quoteGrad)" fill-opacity="0.88">
+    <circle cx="352" cy="602" r="36"/>
+    <path d="M 318 594 C 318 538 352 508 386 496 L 398 524 C 374 536 362 556 362 580 Z"/>
+    <circle cx="468" cy="602" r="36"/>
+    <path d="M 434 594 C 434 538 468 508 502 496 L 514 524 C 490 536 478 556 478 580 Z"/>
+  </g>
+</svg>

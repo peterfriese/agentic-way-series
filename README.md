@@ -2,7 +2,7 @@
 
 Companion repository for **The Agentic Way** video series on the [Firebase YouTube channel](https://www.youtube.com/@Firebase), where we build **Idiom Bridge**—a cross-platform app for translating cultural idioms across British English, Brazilian Portuguese, Chilean Spanish, and German—using AI coding agents and Firebase.
 
-![Idiom Bridge iOS Showcase](docs/images/idiom-bridge-ios-showcase.png)
+![Idiom Bridge Android and iOS Showcase](docs/images/idiom-bridge-showcase.png)
 
 ## Video Series
 

@@ -1,0 +1,10 @@
+# Xcode user-specific files
+xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# xcode-build-server files
+buildServer.json
+.compile
+
+# Local build artifacts
+.build/

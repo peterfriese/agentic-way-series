@@ -30,6 +30,11 @@ render.experimental.xml
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+GoogleService-Info.plist
+
+# Local agent/IDE caches
+.gemini/
+.DS_Store
 
 # Android Profiling
 *.hprof

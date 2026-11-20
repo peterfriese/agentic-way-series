@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "skills": {
+    "stratos-core": {
+      "source": "peterfriese/Stratos",
+      "commit": "64879724d53a6ca2c925fd614e2c2c15c1d49120",
+      "sourceType": "github",
+      "skillPath": "stratos-core/SKILL.md",
+      "computedHash": "93d32706f8781a3d8b1340f42e079e5334a2acba06fc63de156e7ab39005e546"
+    },
+    "stratos-swift": {
+      "source": "peterfriese/Stratos",
+      "commit": "64879724d53a6ca2c925fd614e2c2c15c1d49120",
+      "sourceType": "github",
+      "skillPath": "stratos-swift/SKILL.md",
+      "computedHash": "d807e38cbfbdf05da24004ff72e5d26cb748943814116611e5ab5f048a5cc158"
+    },
+    "stratos-swiftui": {
+      "source": "peterfriese/Stratos",
+      "commit": "64879724d53a6ca2c925fd614e2c2c15c1d49120",
+      "sourceType": "github",
+      "skillPath": "stratos-swiftui/SKILL.md",
+      "computedHash": "67e314743d41d9b01fa674d5bce7304874848c587a781478a9d3762708292a28"
+    },
+    "swift-concurrency": {
+      "source": "AvdLee/Swift-Concurrency-Agent-Skill",
+      "commit": "3b1580d8398e0b5408b3bf0bada0e941a1cfc642",
+      "sourceType": "github",
+      "skillPath": "skills/swift-concurrency/SKILL.md",
+      "computedHash": "7977e699ad9eae2cccdb8de7520b5fb7701ed01a6bde52d47263bc30dec09482"
+    },
+    "swift-testing-expert": {
+      "source": "AvdLee/Swift-Testing-Agent-Skill",
+      "commit": "798e9b1a2bcac164d4f0c781908199e754f0bab6",
+      "sourceType": "github",
+      "skillPath": "swift-testing-expert/SKILL.md",
+      "computedHash": "d21b78b1a320b96748144693762293ae9557a82ec574ab40f7037c58b5d6b339"
+    },
+    "swiftui-expert-skill": {
+      "source": "AvdLee/SwiftUI-Agent-Skill",
+      "commit": "62bd760f005093d1e2e4de5db156e456a5f96400",
+      "sourceType": "github",
+      "skillPath": "skills/swiftui-expert-skill/SKILL.md",
+      "computedHash": "187f7d0b9b9103f0935460c1b8060a77131c5ef24fa0d6757f5f5afdd23b7966"
+    },
+    "swiftui-liquid-glass": {
+      "source": "FloWritesCode/fwc-swiftui-skills",
+      "commit": "3a6c74be7bf9cbc6b19c2025922f6b364542c000",
+      "sourceType": "github",
+      "skillPath": "skills/swiftui-liquid-glass/SKILL.md",
+      "computedHash": "e07720f795629e3adfec160e5d5fedd8f2021cf0ac83814596aaa1746f37f749"
+    },
+    "update-swiftui-apis": {
+      "source": "AvdLee/SwiftUI-Agent-Skill",
+      "commit": "62bd760f005093d1e2e4de5db156e456a5f96400",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/update-swiftui-apis/SKILL.md",
+      "computedHash": "5b0a9b9b8e55535bc0d45b86f1c7c86a439bd9b496fca668373920781ef63c58"
+    }
+  }
+}

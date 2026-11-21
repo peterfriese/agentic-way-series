@@ -21,9 +21,10 @@
 
 # Studio Recording Strategy (Voice Mode + Screencast)
 
-1. **Record the live Voice Mode session first (at your desk):** Run Antigravity Voice Mode with a screen recorder capturing the Antigravity + Simulator + Firebase Console windows, plus a clean separate audio track for your mic and Antigravity's spoken replies.
-2. **Keep prompts crisp and conversational:** Speak naturally to Antigravity in 1-2 sentence turns so the back-and-forth feels genuine on camera and edits cleanly.
-3. **In the studio:** Play back the screencast on a reference monitor and cue the agent's pre-recorded voice replies so you can react naturally on camera without waiting on live model latency.
+1. **Pre-flight check:** Make sure the simulator starts on **German -> British English**, pre-warm `DerivedData` / SwiftPM cache so `FirebaseFirestore` links quickly, and have the Firebase Console open to `users/{uid}` in the background.
+2. **Record the live Voice Mode session first (at your desk):** Run Antigravity Voice Mode with a screen recorder capturing the Antigravity + Simulator + Firebase Console windows, plus a clean separate audio track for your mic and Antigravity's spoken replies.
+3. **Keep prompts crisp and conversational:** Speak naturally to Antigravity in 1-2 sentence turns so the back-and-forth feels genuine on camera and edits cleanly. Mute or end Voice Mode right before **Wrapping Up** (`4:18`) so the agent does not respond to your outro.
+4. **In the studio:** Play back the screencast on a reference monitor and cue the agent's pre-recorded voice replies so you can react naturally on camera without waiting on live model latency.
 
 # Script
 
@@ -37,14 +38,14 @@
 | **1:50 - Agentic Build, Firebase Plugin & Security Rules** | |
 | *(1:50)* **Agent (Voice):** "I'll update `AGENTS.md`, add the `FirebaseFirestore` package, create a Swift 6 repository using `@DocumentID` and `Codable` scoped to each user's UID, wire it into the prepped Favorites UI, and hand off `firestore.rules` to the security rules specialist." | Antigravity tool stream: `AGENTS.md` edit + `firebase-firestore` (`ios_setup.md`) and `firestore-rules-author` skills loading |
 | *(2:08)* Notice how Antigravity knows the exact Firebase patterns right away? That's because I've enabled the **Firebase plugin** and locked that rule into `AGENTS.md`, so it uses `@DocumentID` and Firestore's native `Codable` APIs out of the box and delegates `firestore.rules` to a dedicated security rules author. *(sips coffee while the agent works)* | Screencast: Antigravity Plugins / Firebase plugin skills + fast-forward of `SavedIdiomRepository.swift` and `firestore.rules` while Peter drinks coffee |
-| *(2:33)* **Peter (Voice Mode):** "Oh, and please make sure offline persistence is enabled and double-check that unauthenticated writes are blocked." | Voice Mode waveform |
-| *(2:42)* **Agent (Voice):** "Offline persistence is on by default on iOS, and `firestore.rules` restricts read and write access to `request.auth != null && request.auth.uid == userId`. Deploying rules and running the tests now." | Screencast: `firebase deploy --only firestore:rules` + `flowdeck test` passing |
+| *(2:33)* **Peter (Voice Mode):** "Oh, and do I need to add extra code to enable offline persistence? Also, please double-check that unauthenticated writes are blocked." | Voice Mode waveform |
+| *(2:42)* **Agent (Voice):** "Actually, offline persistence is already enabled by default on iOS, no extra code needed! And `firestore.rules` restricts read and write access to `request.auth != null && request.auth.uid == userId`. Deploying rules and running the unit tests now." | Screencast: `firebase deploy --only firestore:rules` + `flowdeck test --only IdiomBridgeTests` running; B-roll cutaway to Firebase Console showing empty `users/{uid}/favorites` state |
 | *(3:00)* **Peter (smiling):** "You're spot on, how could I forget this is turned on by default on iOS and Android." | Speaker in full screen |
 | *(3:07)* **Interstitial (French accent):** "A few moments later..." | Title card: *"A few moments later..."* |
 | **3:12 - Live Demo: Simulator to Firebase Console** | |
-| *(3:12)* Let's see it running in the iOS Simulator. I'll translate *"It's raining cats and dogs"* to German, and tap Save. | iPhone 18 Pro Simulator: translate, tap Save |
+| *(3:12)* Let's see it running in the iOS Simulator. I'll translate *"It's raining cats and dogs"* to German (hey Antigravity, what's the funny literal one?) and tap Save. | iPhone 18 Pro Simulator: translate, tap Save |
 | *(3:23)* **Agent (Voice, interrupting playfully):** "Oh, that is a really funny idiom! *Es regnet wie aus Eimern*, literally raining out of buckets." | Antigravity Voice Mode waveform pulses spontaneously |
-| *(3:31)* **Peter (smiling):** "Wait, you're still listening? Good, keep watching." So here's the Favorites tab right inside the app, showing both the original phrase and the German translation, and it stays cached even if we go offline. Now let's switch over to the Firebase Console and open Firestore Database. If we drill into the `users` collection, pick my user ID, and open `idioms`, there's our new document sitting right there with the source text, translated idiom, language pair, and timestamp, all synced in real time. | Screencast: Favorites tab -> Firebase Console -> Firestore Database drilling into `users/{uid}/idioms` and highlighting document fields |
+| *(3:31)* **Peter (smiling):** "Wait, you're still listening? Good, keep watching." So here's the Favorites tab right inside the app, showing both the original phrase and the German translation, and it stays cached even if we go offline. Now let's switch over to the Firebase Console and open Firestore Database. If we drill into the `users` collection, pick my user ID, and open `favorites`, there's our new document sitting right there with the source text, translated idiom, language pair, and timestamp, all synced in real time. | Screencast: Favorites tab -> Firebase Console -> Firestore Database drilling into `users/{uid}/favorites` and highlighting document fields (mute/end Voice Mode after this beat) |
 | **4:07 - Checking Security Rules** | |
 | *(4:07)* And if we check the Rules tab in the console, those rules are already live: only the signed-in owner can read or write their own collection. | Screencast: Firebase Console -> Firestore -> Rules tab |
 | **4:18 - Wrapping Up** | |

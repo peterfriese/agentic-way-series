@@ -28,8 +28,8 @@
 
 | Script | Visuals |
 | :--- | :--- |
-| **0:00 - Cold Open: Straight Into Voice Mode** | |
-| *(0:00)* Welcome back to Getting Started with Firebase the Agentic Way. In this series, we show you how to use Firebase with your coding agent. In the previous episode, Marina showed how to add Sign in with Google to an app she was working on. I've converted her app to iOS (if you're interested in how I did that, you'll find a link in the description below). And today, I'm going to show you how to add Cloud Firestore to the app, just by talking to Antigravity in Voice Mode. | Split screen: Speaker + Antigravity Voice Mode active over Xcode / iOS Simulator |
+| **0:00 - Cold Open: Live App Demo & Voice Mode** | |
+| *(0:00)* Welcome back to Getting Started with Firebase the Agentic Way. Last time, Marina added Sign in with Google to Idiom Bridge, and I've since converted the app to iOS (link in the description). Here's the app in action: you type an idiom like *"It's raining cats and dogs"*, pick your target language, and translate it. Today, let's add Cloud Firestore so users can save their translations, just by talking to Antigravity in Voice Mode. | Split screen: Speaker + iPhone 18 Pro Simulator translating *"It's raining cats and dogs"* |
 | *(0:20)* **Peter (Voice Mode):** "Hey, so the app we're looking at allows users to translate idioms from their language to another language, and I was thinking it might be a good idea to store a history of all the words and idioms they translated in a database. Can you suggest how we could do that?" | Antigravity Voice Mode waveform + live transcript |
 | *(0:34)* **Agent (Voice):** "Yes, you can do that using Cloud Firestore. Since the app already uses Firebase Authentication, we can store each user's translated idioms under their own UID so they sync across devices." | Antigravity Voice Mode waveform |
 | *(0:45)* **Peter (Voice Mode):** "That's a great idea. I think we should also probably have a UI for that." | Antigravity Voice Mode waveform |

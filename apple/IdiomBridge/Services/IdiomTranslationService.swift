@@ -11,11 +11,11 @@ protocol IdiomTranslating: Sendable {
 }
 
 extension IdiomTranslating {
-    /// Convenience overload defaulting to British English -> Brazilian Portuguese.
+    /// Convenience overload defaulting to German -> British English.
     func translate(
         idiom: String,
-        from sourceLanguage: IdiomLanguage = .britishEnglish,
-        to targetLanguage: IdiomLanguage = .brazilianPortuguese
+        from sourceLanguage: IdiomLanguage = .german,
+        to targetLanguage: IdiomLanguage = .britishEnglish
     ) async throws(IdiomBridgeError) -> String {
         try await translate(idiom: idiom, from: sourceLanguage, to: targetLanguage)
     }
@@ -32,8 +32,8 @@ actor FirebaseIdiomTranslationService: IdiomTranslating {
 
     func translate(
         idiom: String,
-        from sourceLanguage: IdiomLanguage = .britishEnglish,
-        to targetLanguage: IdiomLanguage = .brazilianPortuguese
+        from sourceLanguage: IdiomLanguage = .german,
+        to targetLanguage: IdiomLanguage = .britishEnglish
     ) async throws(IdiomBridgeError) -> String {
         let trimmed = idiom.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else {
@@ -73,8 +73,8 @@ actor FirebaseIdiomTranslationService: IdiomTranslating {
 
     nonisolated static func makePrompt(
         for idiom: String,
-        from sourceLanguage: IdiomLanguage = .britishEnglish,
-        to targetLanguage: IdiomLanguage = .brazilianPortuguese
+        from sourceLanguage: IdiomLanguage = .german,
+        to targetLanguage: IdiomLanguage = .britishEnglish
     ) -> String {
         """
         You are a bilingual cultural translation expert. Translate the input \(sourceLanguage.promptLanguageName) idiom to its closest culturally equivalent \(targetLanguage.promptSpeakerDescription) to convey the exact same meaning, tone, and humor, not a literal word-for-word translation. Return the exact \(targetLanguage.promptLanguageName) idiom as your response.

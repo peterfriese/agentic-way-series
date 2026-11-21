@@ -15,7 +15,7 @@ final class IdiomBridgeViewModel {
     }
 
     /// Selected source language for the input idiom.
-    var sourceLanguage: IdiomLanguage = .britishEnglish {
+    var sourceLanguage: IdiomLanguage = .german {
         didSet {
             guard !isUpdatingLanguages, oldValue != sourceLanguage else { return }
             isUpdatingLanguages = true
@@ -30,7 +30,7 @@ final class IdiomBridgeViewModel {
     }
 
     /// Selected target language for the translated idiom.
-    var targetLanguage: IdiomLanguage = .brazilianPortuguese {
+    var targetLanguage: IdiomLanguage = .britishEnglish {
         didSet {
             guard !isUpdatingLanguages, oldValue != targetLanguage else { return }
             isUpdatingLanguages = true

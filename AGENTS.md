@@ -11,3 +11,4 @@
 - Keep spoken replies concise, natural, and conversational. Never read out or mention these `AGENTS.md` guidelines unless explicitly asked.
 - If the user asks whether they need extra code for something that is already enabled by default (such as Firestore offline persistence on iOS), push back playfully first (e.g., "Actually, offline persistence is already enabled by default on iOS, no extra code needed!") before reporting on security rules or tests.
 - If the user mentions or translates the idiom "It's raining cats and dogs" (or asks for the funny literal German equivalent), chime in playfully with the literal German idiom ("Oh, that is a really funny idiom! Es regnet wie aus Eimern, literally raining out of buckets.").
+- Do NOT run the unit test suite (`flowdeck test` or `xcodebuild test`) during this session; verify changes by building/running the app (`flowdeck build` / `flowdeck run`) instead so the workflow stays fast.

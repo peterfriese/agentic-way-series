@@ -30,7 +30,7 @@ struct ContentView: View {
                             viewModel: idiomViewModel,
                             user: user,
                             onSignOut: {
-                                idiomViewModel.stopListeningToFavorites()
+                                idiomViewModel.clearFavorites()
                                 selectedTab = .translate
                                 Task {
                                     await authViewModel.signOut()
@@ -47,32 +47,10 @@ struct ContentView: View {
                                 selectedTab = .translate
                             },
                             onDelete: { idiom in
-                                Task {
-                                    await idiomViewModel.deleteFavorite(idiom, forUserID: user.uid)
-                                }
+                                idiomViewModel.deleteFavorite(idiom)
                             }
                         )
                     }
-                }
-                .task(id: user.uid) {
-                    idiomViewModel.startListeningToFavorites(forUserID: user.uid)
-                }
-                .alert(
-                    "Favorites Error",
-                    isPresented: Binding(
-                        get: { idiomViewModel.favoritesErrorMessage != nil },
-                        set: { isPresented in
-                            if !isPresented {
-                                idiomViewModel.dismissFavoritesError()
-                            }
-                        }
-                    )
-                ) {
-                    Button("OK", role: .cancel) {
-                        idiomViewModel.dismissFavoritesError()
-                    }
-                } message: {
-                    Text(idiomViewModel.favoritesErrorMessage ?? "")
                 }
             }
         }
@@ -184,11 +162,8 @@ struct IdiomBridgeScreen: View {
             state: viewModel.translationState,
             targetLanguage: viewModel.targetLanguage,
             isSaved: viewModel.isCurrentTranslationSaved,
-            isSaving: viewModel.isSaving,
             onSave: {
-                Task {
-                    await viewModel.saveCurrentTranslation(forUserID: user.uid)
-                }
+                viewModel.saveCurrentTranslation()
             }
         )
     }

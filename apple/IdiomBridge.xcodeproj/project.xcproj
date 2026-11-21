@@ -47,7 +47,6 @@
           "children": [
             { "path": "AuthService.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
             { "path": "IdiomTranslationService.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
-            { "path": "SavedIdiomRepository.swift", "target-membership": [ "IdiomBridge/compile-sources" ] },
           ],
         }, {
           "kind": "group",
@@ -141,10 +140,6 @@
         }, {
           "package": "firebase-ios-sdk",
           "product-name": "FirebaseCore",
-          "build-phase": { "build-phase": "frameworks" },
-        }, {
-          "package": "firebase-ios-sdk",
-          "product-name": "FirebaseFirestore",
           "build-phase": { "build-phase": "frameworks" },
         },
       ],

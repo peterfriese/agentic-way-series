@@ -209,9 +209,9 @@ final class IdiomBridgeViewModel {
         )
 
         do {
-            try await favoritesRepository.save(item, forUserID: userID)
-            if !favorites.contains(where: { $0.id == item.id }) {
-                favorites.insert(item, at: 0)
+            let saved = try await favoritesRepository.save(item, forUserID: userID)
+            if !favorites.contains(where: { $0.id == saved.id }) {
+                favorites.insert(saved, at: 0)
             }
         } catch {
             favoritesErrorMessage = error.localizedDescription
@@ -220,10 +220,11 @@ final class IdiomBridgeViewModel {
 
     /// Deletes a saved favorite idiom.
     func deleteFavorite(_ idiom: SavedIdiom, forUserID userID: String) async {
+        guard let id = idiom.id else { return }
         favoritesErrorMessage = nil
         do {
-            try await favoritesRepository.delete(id: idiom.id, forUserID: userID)
-            favorites.removeAll { $0.id == idiom.id }
+            try await favoritesRepository.delete(id: id, forUserID: userID)
+            favorites.removeAll { $0.id == id }
         } catch {
             favoritesErrorMessage = error.localizedDescription
         }

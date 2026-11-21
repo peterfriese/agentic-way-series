@@ -43,3 +43,8 @@ Guidelines:
   reaching for globals.
 - Models are value types.
 - Add a view-model test alongside each new feature.
+
+## Firestore Data Mapping
+
+- Use Firestore's native `Codable` APIs (`setData(from:)` and `document.data(as:)`) with `@DocumentID` instead of manual `[String: Any]` dictionaries or `document.data()` unpacking.
+- See [ADR 0001: Firestore Codable Mapping](../docs/adr/0001-firestore-codable-document-id.md) for how `@DocumentID` keeps Swift `Identifiable` models aligned with strict `hasOnly` checks in `firestore.rules`.

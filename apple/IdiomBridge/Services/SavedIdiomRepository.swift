@@ -3,7 +3,8 @@ import Foundation
 
 /// Abstraction for persisting and observing a user's favorite idioms.
 protocol SavedIdiomRepositoryProtocol: Sendable {
-    func save(_ idiom: SavedIdiom, forUserID userID: String) async throws
+    @discardableResult
+    func save(_ idiom: SavedIdiom, forUserID userID: String) async throws -> SavedIdiom
     func delete(id: String, forUserID userID: String) async throws
     func observeFavorites(forUserID userID: String) -> AsyncStream<[SavedIdiom]>
 }
@@ -21,15 +22,11 @@ final class FirestoreSavedIdiomRepository: SavedIdiomRepositoryProtocol, @unchec
         database.collection("users").document(userID).collection("idioms")
     }
 
-    func save(_ idiom: SavedIdiom, forUserID userID: String) async throws {
-        let data: [String: Any] = [
-            "sourceText": idiom.sourceText,
-            "translatedText": idiom.translatedText,
-            "sourceLanguage": idiom.sourceLanguage.rawValue,
-            "targetLanguage": idiom.targetLanguage.rawValue,
-            "createdAt": Timestamp(date: idiom.createdAt),
-        ]
-        try await idiomsCollection(for: userID).document(idiom.id).setData(data)
+    func save(_ idiom: SavedIdiom, forUserID userID: String) async throws -> SavedIdiom {
+        let ref = try idiomsCollection(for: userID).addDocument(from: idiom)
+        var saved = idiom
+        saved.id = ref.documentID
+        return saved
     }
 
     func delete(id: String, forUserID userID: String) async throws {
@@ -44,27 +41,8 @@ final class FirestoreSavedIdiomRepository: SavedIdiomRepositoryProtocol, @unchec
             let listener = SendableListener(
                 collection.addSnapshotListener { snapshot, _ in
                     guard let documents = snapshot?.documents else { return }
-                    let items = documents.compactMap { document -> SavedIdiom? in
-                        let data = document.data()
-                        guard
-                            let sourceText = data["sourceText"] as? String,
-                            let translatedText = data["translatedText"] as? String,
-                            let sourceRaw = data["sourceLanguage"] as? String,
-                            let targetRaw = data["targetLanguage"] as? String,
-                            let sourceLanguage = IdiomLanguage(rawValue: sourceRaw),
-                            let targetLanguage = IdiomLanguage(rawValue: targetRaw)
-                        else {
-                            return nil
-                        }
-                        let createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
-                        return SavedIdiom(
-                            id: document.documentID,
-                            sourceText: sourceText,
-                            translatedText: translatedText,
-                            sourceLanguage: sourceLanguage,
-                            targetLanguage: targetLanguage,
-                            createdAt: createdAt
-                        )
+                    let items = documents.compactMap { document in
+                        try? document.data(as: SavedIdiom.self)
                     }
                     continuation.yield(items)
                 }

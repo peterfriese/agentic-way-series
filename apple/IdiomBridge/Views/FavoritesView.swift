@@ -96,12 +96,14 @@ private struct FavoriteIdiomRow: View {
     FavoritesView(
         favorites: [
             SavedIdiom(
+                id: "preview-1",
                 sourceText: "It's raining cats and dogs",
                 translatedText: "Está chovendo canivetes",
                 sourceLanguage: .britishEnglish,
                 targetLanguage: .brazilianPortuguese
             ),
             SavedIdiom(
+                id: "preview-2",
                 sourceText: "Du bist auf dem Holzweg",
                 translatedText: "You're barking up the wrong tree",
                 sourceLanguage: .german,

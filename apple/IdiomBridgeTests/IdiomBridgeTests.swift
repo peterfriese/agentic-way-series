@@ -479,12 +479,17 @@ private final class MockSavedIdiomRepository: SavedIdiomRepositoryProtocol, @unc
         lock.withLock { stored.count }
     }
 
-    func save(_ idiom: SavedIdiom, forUserID userID: String) async throws {
+    func save(_ idiom: SavedIdiom, forUserID userID: String) async throws -> SavedIdiom {
+        var saved = idiom
         let snapshot: [SavedIdiom] = lock.withLock {
-            stored.insert(idiom, at: 0)
+            if saved.id == nil {
+                saved.id = "mock-\(stored.count + 1)"
+            }
+            stored.insert(saved, at: 0)
             return stored
         }
         continuation?.yield(snapshot)
+        return saved
     }
 
     func delete(id: String, forUserID userID: String) async throws {

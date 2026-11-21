@@ -1,3 +1,4 @@
+import FirebaseFirestore
 import Foundation
 
 /// Supported languages for idiom translation.
@@ -141,7 +142,7 @@ enum TranslationState: Sendable, Equatable {
 
 /// A translated idiom saved by the user for later review.
 struct SavedIdiom: Identifiable, Codable, Sendable, Equatable {
-    let id: String
+    @DocumentID var id: String?
     let sourceText: String
     let translatedText: String
     let sourceLanguage: IdiomLanguage
@@ -149,7 +150,7 @@ struct SavedIdiom: Identifiable, Codable, Sendable, Equatable {
     let createdAt: Date
 
     init(
-        id: String = UUID().uuidString,
+        id: String? = nil,
         sourceText: String,
         translatedText: String,
         sourceLanguage: IdiomLanguage,

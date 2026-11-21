@@ -1,8 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    private enum AppTab: Hashable {
+        case translate
+        case favorites
+    }
+
     @State private var authViewModel = AuthViewModel()
     @State private var idiomViewModel = IdiomBridgeViewModel()
+    @State private var selectedTab: AppTab = .translate
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -18,15 +24,56 @@ struct ContentView: View {
             case .signedOut:
                 SignInView(viewModel: authViewModel)
             case .signedIn(let user):
-                IdiomBridgeScreen(
-                    viewModel: idiomViewModel,
-                    user: user,
-                    onSignOut: {
-                        Task {
-                            await authViewModel.signOut()
-                        }
+                TabView(selection: $selectedTab) {
+                    Tab("Translate", systemImage: "character.book.closed", value: AppTab.translate) {
+                        IdiomBridgeScreen(
+                            viewModel: idiomViewModel,
+                            user: user,
+                            onSignOut: {
+                                idiomViewModel.stopListeningToFavorites()
+                                selectedTab = .translate
+                                Task {
+                                    await authViewModel.signOut()
+                                }
+                            }
+                        )
                     }
-                )
+
+                    Tab("Favorites", systemImage: "star", value: AppTab.favorites) {
+                        FavoritesView(
+                            favorites: idiomViewModel.favorites,
+                            onSelect: { idiom in
+                                idiomViewModel.loadFavorite(idiom)
+                                selectedTab = .translate
+                            },
+                            onDelete: { idiom in
+                                Task {
+                                    await idiomViewModel.deleteFavorite(idiom, forUserID: user.uid)
+                                }
+                            }
+                        )
+                    }
+                }
+                .task(id: user.uid) {
+                    idiomViewModel.startListeningToFavorites(forUserID: user.uid)
+                }
+                .alert(
+                    "Favorites Error",
+                    isPresented: Binding(
+                        get: { idiomViewModel.favoritesErrorMessage != nil },
+                        set: { isPresented in
+                            if !isPresented {
+                                idiomViewModel.dismissFavoritesError()
+                            }
+                        }
+                    )
+                ) {
+                    Button("OK", role: .cancel) {
+                        idiomViewModel.dismissFavoritesError()
+                    }
+                } message: {
+                    Text(idiomViewModel.favoritesErrorMessage ?? "")
+                }
             }
         }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: authViewModel.authState)
@@ -135,7 +182,14 @@ struct IdiomBridgeScreen: View {
 
         OutputIdiomCard(
             state: viewModel.translationState,
-            targetLanguage: viewModel.targetLanguage
+            targetLanguage: viewModel.targetLanguage,
+            isSaved: viewModel.isCurrentTranslationSaved,
+            isSaving: viewModel.isSaving,
+            onSave: {
+                Task {
+                    await viewModel.saveCurrentTranslation(forUserID: user.uid)
+                }
+            }
         )
     }
 

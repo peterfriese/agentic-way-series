@@ -6,6 +6,9 @@ import UIKit
 struct OutputIdiomCard: View {
     let state: TranslationState
     let targetLanguage: IdiomLanguage
+    var isSaved: Bool = false
+    var isSaving: Bool = false
+    var onSave: () -> Void = {}
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ScaledMetric(relativeTo: .title3) private var emptyIconSize: CGFloat = 28
@@ -19,17 +22,32 @@ struct OutputIdiomCard: View {
                 Spacer(minLength: 0)
 
                 if case .translated(let output) = state {
-                    GlassEffectContainer {
-                        Button(
-                            copied ? "Copied" : "Copy",
-                            systemImage: copied ? "checkmark" : "doc.on.doc"
-                        ) {
-                            copyToClipboard(output)
+                    GlassEffectContainer(spacing: 8) {
+                        HStack(spacing: 8) {
+                            Button(
+                                isSaved ? "Saved" : "Save",
+                                systemImage: isSaved ? "star.fill" : "star"
+                            ) {
+                                onSave()
+                            }
+                            .buttonStyle(.glass)
+                            .buttonBorderShape(.capsule)
+                            .controlSize(.small)
+                            .font(.caption.weight(.medium))
+                            .disabled(isSaved || isSaving)
+                            .accessibilityLabel(isSaved ? "Saved to Favorites" : "Save to Favorites")
+
+                            Button(
+                                copied ? "Copied" : "Copy",
+                                systemImage: copied ? "checkmark" : "doc.on.doc"
+                            ) {
+                                copyToClipboard(output)
+                            }
+                            .buttonStyle(.glass)
+                            .buttonBorderShape(.capsule)
+                            .controlSize(.small)
+                            .font(.caption.weight(.medium))
                         }
-                        .buttonStyle(.glass)
-                        .buttonBorderShape(.capsule)
-                        .controlSize(.small)
-                        .font(.caption.weight(.medium))
                         .transition(.opacity)
                     }
                 }

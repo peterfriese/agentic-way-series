@@ -1,7 +1,7 @@
 import Foundation
 
 /// Supported languages for idiom translation.
-nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Hashable {
+nonisolated enum IdiomLanguage: String, Sendable, CaseIterable, Identifiable, Hashable, Codable {
     case britishEnglish
     case brazilianPortuguese
     case german
@@ -137,4 +137,30 @@ enum TranslationState: Sendable, Equatable {
     case loading
     case translated(String)
     case failed(String)
+}
+
+/// A translated idiom saved by the user for later review.
+struct SavedIdiom: Identifiable, Codable, Sendable, Equatable {
+    let id: String
+    let sourceText: String
+    let translatedText: String
+    let sourceLanguage: IdiomLanguage
+    let targetLanguage: IdiomLanguage
+    let createdAt: Date
+
+    init(
+        id: String = UUID().uuidString,
+        sourceText: String,
+        translatedText: String,
+        sourceLanguage: IdiomLanguage,
+        targetLanguage: IdiomLanguage,
+        createdAt: Date = Date()
+    ) {
+        self.id = id
+        self.sourceText = sourceText
+        self.translatedText = translatedText
+        self.sourceLanguage = sourceLanguage
+        self.targetLanguage = targetLanguage
+        self.createdAt = createdAt
+    }
 }

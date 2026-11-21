@@ -469,3 +469,109 @@ struct AuthViewModelTests {
         #expect(digest == "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
     }
 }
+
+private final class MockSavedIdiomRepository: SavedIdiomRepositoryProtocol, @unchecked Sendable {
+    private let lock = NSLock()
+    private var stored: [SavedIdiom] = []
+    private var continuation: AsyncStream<[SavedIdiom]>.Continuation?
+
+    var savedCount: Int {
+        lock.withLock { stored.count }
+    }
+
+    func save(_ idiom: SavedIdiom, forUserID userID: String) async throws {
+        let snapshot: [SavedIdiom] = lock.withLock {
+            stored.insert(idiom, at: 0)
+            return stored
+        }
+        continuation?.yield(snapshot)
+    }
+
+    func delete(id: String, forUserID userID: String) async throws {
+        let snapshot: [SavedIdiom] = lock.withLock {
+            stored.removeAll { $0.id == id }
+            return stored
+        }
+        continuation?.yield(snapshot)
+    }
+
+    func observeFavorites(forUserID userID: String) -> AsyncStream<[SavedIdiom]> {
+        AsyncStream { continuation in
+            let initial = self.lock.withLock {
+                self.continuation = continuation
+                return self.stored
+            }
+            continuation.yield(initial)
+        }
+    }
+}
+
+@MainActor
+@Suite("Favorites")
+struct FavoritesTests {
+    @Test("Saving current translation stores favorite and prevents duplicates")
+    func saveCurrentTranslationAndPreventDuplicates() async {
+        let repository = MockSavedIdiomRepository()
+        let viewModel = IdiomBridgeViewModel(
+            translationService: MockIdiomTranslationService(result: .success("Está chovendo canivetes")),
+            savedIdiomRepository: repository
+        )
+
+        viewModel.idiomInput = "It's raining cats and dogs"
+        await viewModel.translate()
+        #expect(viewModel.isCurrentTranslationSaved == false)
+
+        await viewModel.saveCurrentTranslation(forUserID: "user-1")
+        #expect(viewModel.favorites.count == 1)
+        #expect(viewModel.isCurrentTranslationSaved == true)
+        #expect(repository.savedCount == 1)
+
+        // Second save should be ignored
+        await viewModel.saveCurrentTranslation(forUserID: "user-1")
+        #expect(viewModel.favorites.count == 1)
+        #expect(repository.savedCount == 1)
+    }
+
+    @Test("Deleting a favorite removes it from favorites")
+    func deleteFavorite() async {
+        let repository = MockSavedIdiomRepository()
+        let viewModel = IdiomBridgeViewModel(
+            translationService: MockIdiomTranslationService(result: .success("Ein Kinderspiel")),
+            savedIdiomRepository: repository
+        )
+
+        viewModel.sourceLanguage = .brazilianPortuguese
+        viewModel.targetLanguage = .german
+        viewModel.idiomInput = "Mamão com açúcar"
+        await viewModel.translate()
+        await viewModel.saveCurrentTranslation(forUserID: "user-1")
+        #expect(viewModel.favorites.count == 1)
+
+        let saved = viewModel.favorites[0]
+        await viewModel.deleteFavorite(saved, forUserID: "user-1")
+        #expect(viewModel.favorites.isEmpty)
+        #expect(viewModel.isCurrentTranslationSaved == false)
+    }
+
+    @Test("Loading a favorite restores language pair, input, and output")
+    func loadFavorite() {
+        let viewModel = IdiomBridgeViewModel(
+            translationService: MockIdiomTranslationService(result: .success("")),
+            savedIdiomRepository: MockSavedIdiomRepository()
+        )
+        let saved = SavedIdiom(
+            sourceText: "Du bist auf dem Holzweg",
+            translatedText: "You're barking up the wrong tree",
+            sourceLanguage: .german,
+            targetLanguage: .britishEnglish
+        )
+
+        viewModel.loadFavorite(saved)
+
+        #expect(viewModel.sourceLanguage == .german)
+        #expect(viewModel.targetLanguage == .britishEnglish)
+        #expect(viewModel.idiomInput == "Du bist auf dem Holzweg")
+        #expect(viewModel.translatedIdiomOutput == "You're barking up the wrong tree")
+        #expect(viewModel.translationState == .translated("You're barking up the wrong tree"))
+    }
+}

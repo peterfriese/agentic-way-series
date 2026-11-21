@@ -46,3 +46,6 @@
 | *(3:45)* And if we check the Rules tab in the console, those rules are already live: only the signed-in owner can read or write their own collection. | Screencast: Firebase Console -> Firestore -> Rules tab |
 | **4:15 - Wrapping Up** | |
 | *(4:15)* Zero boilerplate, zero hand-written rules, and full cross-device sync in just a few minutes of conversation. Grab the code from the `agentic-way-series` repo linked below, and subscribe to the Firebase YouTube channel for the next episode. | Speaker in full screen + repo link & subscribe card |
+| **4:35 - Post-Credits "Cut!" Outro** | |
+| *(4:35)* **Producer (off-camera):** "And, cut! Hey, quick question: how did you actually build the iOS version of Marina's Android app?" | Fake fade-out, then camera stays rolling; Peter relaxes on set |
+| *(4:43)* **Peter (smiling):** "Oh, I used Antigravity to convert the whole app using its new Swarm mode and Voice Mode. We actually recorded a full behind-the-scenes video on that, so let's drop a link in the description below." | Quick flash of the Swarm Overview UI + "Link in the description" end card |
